@@ -54,4 +54,18 @@ SMTP_USER=your-email@example.com
 SMTP_PASSWORD=your-email-password  
 SMTP_DEFAULT_SENDER=your-email@example.com  
 
-
+## Check Database Creation in MySQL   
+If MySQL is running, you can check if the database was created successfully. To do this:  
+1. Access the MySQL container:
+```bash
+docker exec -it mysql-db bash
+```
+2. Open the MySQL CLI:
+```bash
+mysql -u root -p
+```
+3. When prompted for the password, enter the password you set in the "MYSQL_ROOT_PASSWORD" environment variable.
+4. Once logged in, list the databases:
+```sql
+SHOW DATABASES;
+```
