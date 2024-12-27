@@ -54,6 +54,18 @@ SMTP_USER=your-email@example.com
 SMTP_PASSWORD=your-email-password  
 SMTP_DEFAULT_SENDER=your-email@example.com  
 
+## Build the Docker Containers:
+```bash
+docker-compose up --build
+```
+This will build both the Flask and MySQL containers, ensuring that MySQL creates the correct database (testdb).
+
+## Check MySQL Container Status
+This will list all running containers.
+```bash
+docker ps
+```
+
 ## Check Database Creation in MySQL   
 If MySQL is running, you can check if the database was created successfully. To do this:  
 1. Access the MySQL container:
@@ -69,3 +81,17 @@ mysql -u root -p
 ```sql
 SHOW DATABASES;
 ```
+
+## Access Flask App
+Finally, you can try accessing your Flask app by visiting http://localhost:5000/ in your browser.
+
+## Stop and Remove Containers:
+1. Stop and remove the containers:
+```bash
+docker-compose down
+```
+3. Remove any existing volumes (this will erase all data stored in MySQL):
+```bash
+docker-compose down -v
+```
+This command will remove the containers and the associated volumes, so any old database data will be removed, and MySQL will re-initialize next time you use the `docker-compose up --build` command.
