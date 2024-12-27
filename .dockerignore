@@ -1,0 +1,23 @@
+# Ignore virtual environment directories
+venv/
+.env
+__pycache__
+*.pyc
+*.pyo
+
+# Ignore Docker-related files
+Dockerfile
+docker-compose.yml
+
+# Ignore any IDE-related files (for example, VSCode, PyCharm, etc.)
+.vscode/
+.idea/
+
+# Ignore unnecessary logs and temp files
+*.log
+*.bak
+*.swp
+
+# Ignore test or coverage files
+tests/
+coverage/

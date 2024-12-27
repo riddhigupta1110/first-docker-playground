@@ -1,0 +1,53 @@
+services:
+  flask:
+    build: .
+    container_name: flask-app
+    ports:
+      - "5000:5000"
+    environment:
+      # Pass the environment variables from .env file to the Flask container
+      - DB_HOST=${DB_HOST}        # Reference DB_HOST from .env
+      - DB_PORT=${DB_PORT}        # Reference DB_PORT from .env
+      - DB_USER=${DB_USER}        # Reference DB_USER from .env
+      - DB_PASSWORD=${DB_PASSWORD} # Reference DB_PASSWORD from .env
+      - DB_NAME=${DB_NAME}        # Reference DB_NAME from .env
+      - FLASK_ENV=production
+      - SMTP_SERVER=smtp.gmail.com
+      - SMTP_PORT=465
+      - SMTP_USE_TLS=False
+      - SMTP_USE_SSL=True
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_DEFAULT_SENDER=${SMTP_DEFAULT_SENDER}
+    depends_on:
+      - mysql
+    networks:
+      - flask-mysql-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}  # Use DB_PASSWORD from .env
+      - MYSQL_DATABASE=${DB_NAME}           # Use DB_NAME from .env
+      - MYSQL_USER=${DB_USER}               # Use DB_USER from .env
+      - MYSQL_PASSWORD=${DB_PASSWORD}      # Use DB_PASSWORD from .env
+    volumes:
+      - mysql-data:/var/lib/mysql       # Persistent data storage for MySQL
+    ports:
+      - "3306:3306"                     # Expose MySQL port to host
+    networks:
+      - flask-mysql-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "mysql"]
+      interval: 10s
+      retries: 10
+      start_period: 60s
+      timeout: 5s
+
+volumes:
+  mysql-data:  # Ensures data persists between container restarts
+
+networks:
+  flask-mysql-network:
+    driver: bridge
