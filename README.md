@@ -58,7 +58,8 @@ SMTP_DEFAULT_SENDER=your-email@example.com
 ```bash
 docker-compose up --build
 ```
-This will build both the Flask and MySQL containers, ensuring that MySQL creates the correct database (testdb).
+This will build both the Flask and MySQL containers, ensuring that MySQL creates the correct database (testdb). It will also create volumes if they are defined in the docker-compose.yml file and do not already exist. If the volumes are already present, Docker Compose will reuse them.   
+The command also starts the containers as necessary.
 
 ## Check MySQL Container Status
 This will list all running containers.
